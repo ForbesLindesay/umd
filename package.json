@@ -1,0 +1,27 @@
+{
+  "name": "umd",
+  "version": "1.0.0",
+  "description": "Universal Module Definition for use in automated build systems",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "dependencies": {
+    "rfile": "~1.0.0",
+    "ruglify": "~1.0.0",
+    "through": "~2.2.7",
+    "uglify-js": "~2.2.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ForbesLindesay/umd.git"
+  },
+  "author": "ForbesLindesay",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "7f34f679e59a5051e6d4fe7e6be9657a440bbc86"
+}
