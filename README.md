@@ -42,3 +42,5 @@ For examples, see the examples directory.  The CommonJS module format is also su
 ## License
 
   MIT
+
+![viewcount](https://viewcount.jepso.com/count/ForbesLindesay/umd.png)
