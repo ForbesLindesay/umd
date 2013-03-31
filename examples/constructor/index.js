@@ -1,0 +1,1 @@
+return "Constructor example";

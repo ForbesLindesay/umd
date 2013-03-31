@@ -55,12 +55,9 @@ exports.postlude = function (moduleName, cjs) {
 
 
 function pascalCase(name) {
-  name = name.replace(/\-([a-z])/g, function (_, char) { return char.toUpperCase(); });
-  name = name.replace(/[^a-zA-Z0-9]+/g, '');
-  return name.replace(/^[a-z]/, function (char) { return char.toUpperCase(); });
+  return camelCase(name).replace(/^[a-z]/, function (char) { return char.toUpperCase(); });
 }
 function camelCase(name) {
   name = name.replace(/\-([a-z])/g, function (_, char) { return char.toUpperCase(); });
-  name = name.replace(/[^a-zA-Z0-9]+/g, '');
-  return name.replace(/^[A-Z]/, function (char) { return char.toLowerCase(); });
+  return name.replace(/[^a-zA-Z0-9]+/g, '');
 }
