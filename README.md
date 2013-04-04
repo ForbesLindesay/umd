@@ -21,7 +21,7 @@ For examples, see the examples directory.  The CommonJS module format is also su
 
 ## API
 
-### umd(name, [commonJS = false], [source = Stream])
+### umd(name, [commonJS = false], [source])
 
   The `name` should the the name of the module.  Use a string like name, all lower case with hyphens instead of spaces.
 
