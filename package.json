@@ -9,7 +9,7 @@
   "dependencies": {
     "rfile": "~1.0.0",
     "ruglify": "~1.0.0",
-    "through": "~2.2.7",
+    "through": "~2.3.1",
     "uglify-js": "~2.2.5"
   },
   "devDependencies": {},
