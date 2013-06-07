@@ -1,7 +1,13 @@
-<img src="http://i.imgur.com/ypw29XY.png" align="right"/>
 # umd
+<img src="http://i.imgur.com/ypw29XY.png" align="right"/>
 
 Universal Module Definition for use in automated build systems
+
+ - simple synchronous wrapping of a string
+ - optional wrapping of a "stream" with genuine streaming
+ - `return` style module support
+ - CommonJS support
+ - prevents internal UMDs from conflicting
 
 ## Source Format
 
@@ -39,8 +45,19 @@ For examples, see the examples directory.  The CommonJS module format is also su
 
   return the text which will be inserted after a module.
 
+## Command Line
+
+```
+Usage: umd <name> <source> <destination> [options]
+
+Pipe Usage: umd <name> [options] < source > destination
+
+Options:
+
+ -h --help     Display usage information
+ -c --commonJS Use CommonJS module format
+ ```
+
 ## License
 
   MIT
-
-![viewcount](https://viewcount.jepso.com/count/ForbesLindesay/umd.png)
