@@ -1,6 +1,6 @@
 {
   "name": "umd",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Universal Module Definition for use in automated build systems",
   "bin": "./bin/cli.js",
   "dependencies": {
