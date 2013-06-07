@@ -1,6 +1,6 @@
 {
   "name": "umd",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Universal Module Definition for use in automated build systems",
   "dependencies": {
     "rfile": "~1.0.0",
@@ -13,7 +13,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "win-line-endings"
+    "prepublish": "cd bin && win-line-endings && cd .."
   },
   "repository": {
     "type": "git",
