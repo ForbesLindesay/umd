@@ -23,8 +23,10 @@
   } else {
     if (typeof window !== "undefined") {
       window.{{camelcase}} = f();
-    } else {
+    } else if (typeof global !== "undefined") {
       global.{{camelcase}} = f();
+    } else if (typeof self !== "undefined") {
+      self.{{camelcase}} = f();
     }
   }
 
