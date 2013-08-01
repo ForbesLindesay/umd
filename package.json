@@ -10,10 +10,11 @@
     "uglify-js": "~2.3.6"
   },
   "devDependencies": {
-    "linify": "~1.0.1"
+    "linify": "~1.0.1",
+    "mocha": "*"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha -R spec",
     "prepublish": "linify transform bin"
   },
   "repository": {
