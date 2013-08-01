@@ -9,6 +9,10 @@ Universal Module Definition for use in automated build systems
  - CommonJS support
  - prevents internal UMDs from conflicting
 
+[![Build Status](https://travis-ci.org/ForbesLindesay/umd.png?branch=master)](https://travis-ci.org/ForbesLindesay/umd)
+[![Dependency Status](https://gemnasium.com/ForbesLindesay/umd.png)](https://gemnasium.com/ForbesLindesay/umd)
+[![NPM version](https://badge.fury.io/js/umd.png)](http://badge.fury.io/js/umd)
+
 ## Source Format
 
 In order for the UMD wrapper to work the source code for your module should `return` the export, e.g.
