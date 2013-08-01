@@ -10,11 +10,11 @@
     "uglify-js": "~2.3.6"
   },
   "devDependencies": {
-    "win-spawn": "~1.1.2"
+    "linify": "~1.0.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "cd bin && win-line-endings && cd .."
+    "prepublish": "linify transform bin"
   },
   "repository": {
     "type": "git",
