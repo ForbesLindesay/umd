@@ -1,3 +1,3 @@
-(function(e){if("function"==typeof bootstrap)bootstrap("common-js-module",e);else if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else if("undefined"!=typeof ses){if(!ses.ok())return;ses.makeCommonJsModule=e}else"undefined"!=typeof window?window.CommonJsModule=e():global.CommonJsModule=e()})(function(){var define,ses,bootstrap,module,exports;
+!function(e){"object"==typeof exports?module.exports=e():"function"==typeof define&&define.amd?define(e):"undefined"!=typeof window?window.CommonJsModule=e():"undefined"!=typeof global?global.CommonJsModule=e():"undefined"!=typeof self&&(self.CommonJsModule=e())}(function(){var define,module,exports;
 return "Constructor example";
 });
