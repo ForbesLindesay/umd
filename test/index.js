@@ -1,6 +1,7 @@
 var assert = require('assert')
 var umd = require('../')
 var src = umd('sentinel-prime', 'return "sentinel"')
+var namespacedSrc = umd('sentinel.prime', 'return "sentinel"')
 
 describe('with CommonJS', function () {
   it('uses module.exports', function () {
@@ -35,5 +36,10 @@ describe('in the absense of a module system', function () {
     var glob = {}
     Function('self,window,global', src)(glob)
     assert(glob.sentinelPrime === 'sentinel')
+  })
+  it('creates the proper namespaces', function() {
+    var glob = {}
+    Function('window', namespacedSrc)(glob)
+    assert(glob.sentinel.prime === 'sentinel')
   })
 })

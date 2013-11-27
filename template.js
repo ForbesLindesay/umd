@@ -10,11 +10,11 @@
   // <script>
   } else {
     if (typeof window !== "undefined") {
-      setup(window, {{name}}, f())
+      setup(window, "{{name}}", f())
     } else if (typeof global !== "undefined") {
-      setup(global, {{name}}, f())
+      setup(global, "{{name}}", f())
     } else if (typeof self !== "undefined") {
-      setup(self, {{name}}, f())
+      setup(self, "{{name}}", f())
     }
   }
 
