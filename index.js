@@ -4,10 +4,7 @@ var templateSTR = rfile('./template.js');
 var uglify = require('uglify-js');
 function template(moduleName, cjs) {
   var str = uglify.minify(
-    templateSTR
-      .replace(/\{\{name\}\}/g, moduleName.toLowerCase())
-      .replace(/\{\{pascalcase\}\}/g, pascalCase(moduleName))
-      .replace(/\{\{camelcase\}\}/g, camelCase(moduleName)),
+    templateSTR.replace(/\{\{name\}\}/g, camelCase(moduleName)),
     {fromString: true}).code
     .split('source()')
   str[0] = str[0].trim();
@@ -53,11 +50,6 @@ exports.postlude = function (moduleName, cjs) {
 };
 
 
-
-function pascalCase(name) {
-  return camelCase(name).replace(/^[a-z]/, function (char) { return char.toUpperCase(); });
-}
 function camelCase(name) {
-  name = name.replace(/\-([a-z])/g, function (_, char) { return char.toUpperCase(); });
-  return name.replace(/[^a-zA-Z0-9]+/g, '');
+  return name.replace(/\-([a-z])/g, function (_, char) { return char.toUpperCase(); });
 }

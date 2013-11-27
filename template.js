@@ -10,11 +10,20 @@
   // <script>
   } else {
     if (typeof window !== "undefined") {
-      window.{{camelcase}} = f();
+      setup(window, {{name}}, f())
     } else if (typeof global !== "undefined") {
-      global.{{camelcase}} = f();
+      setup(global, {{name}}, f())
     } else if (typeof self !== "undefined") {
-      self.{{camelcase}} = f();
+      setup(self, {{name}}, f())
+    }
+  }
+
+  function setup(object, name, value) {
+    var key
+    var names = name.split('.')
+    while (key = names.shift()) {
+      object[key] = object[key] || (names.length? {} : value)
+      object = object[key]
     }
   }
 
