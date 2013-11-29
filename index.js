@@ -70,7 +70,7 @@ function compileNamespace(name) {
 
   // Worst case, too many namespaces to care about
   } else {
-    return names.reduce(compileNamespaceStep, ['ref$ = g'])
+    return names.reduce(compileNamespaceStep, ['var ref$ = g'])
                 .join(';\n    ');
   }
 }
