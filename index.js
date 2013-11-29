@@ -4,7 +4,7 @@ var templateSTR = rfile('./template.js');
 var uglify = require('uglify-js');
 function template(moduleName, cjs) {
   var str = uglify.minify(
-    templateSTR.replace(/\{\{name\}\}/g, camelCase(moduleName)),
+    templateSTR.replace(/\{\{defineNamespace\}\}/g, compileNamespace(moduleName)),
     {fromString: true}).code
     .split('source()')
   str[0] = str[0].trim();
@@ -51,5 +51,40 @@ exports.postlude = function (moduleName, cjs) {
 
 
 function camelCase(name) {
-  return name.replace(/\-([a-z])/g, function (_, char) { return char.toUpperCase(); });
+  name = name.replace(/\-([a-z])/g, function (_, char) { return char.toUpperCase(); });
+  return name.replace(/[^a-zA-Z0-9]+/g, '')
+}
+
+
+function compileNamespace(name) {
+  var names = name.split('.')
+
+  // No namespaces, yield the best case 'global.NAME = VALUE'
+  if (names.length === 1) {
+    return 'g.' + camelCase(name) + ' = f()';
+
+  // Acceptable case, with reasonable compilation
+  } else if (names.length === 2) {
+    names = names.map(camelCase);
+    return '(g.' + names[0] + ' || (g.' + names[0] + ' = {})).' + names[1] + ' = f()';
+
+  // Worst case, too many namespaces to care about
+  } else {
+    return names.reduce(compileNamespaceStep, ['ref$ = g'])
+                .join(';\n    ');
+  }
+}
+
+function compileNamespaceStep(code, name, i, names) {
+  var value
+
+  if (i === names.length - 1) {
+    value = 'f()';
+  } else {
+    value = '{}';
+  }
+
+  name = camelCase(name);
+  code.push('ref$ = (ref$.' + name + ' || (ref$.' + name + ' = ' + value + '))')
+  return code
 }

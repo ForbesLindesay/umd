@@ -9,22 +9,15 @@
 
   // <script>
   } else {
+    var g
     if (typeof window !== "undefined") {
-      setup(window, "{{name}}", f())
+      g = window;
     } else if (typeof global !== "undefined") {
-      setup(global, "{{name}}", f())
+      g = global;
     } else if (typeof self !== "undefined") {
-      setup(self, "{{name}}", f())
+      g = self;
     }
-  }
-
-  function setup(object, name, value) {
-    var key
-    var names = name.split('.')
-    while (key = names.shift()) {
-      object[key] = object[key] || (names.length? {} : value)
-      object = object[key]
-    }
+    {{defineNamespace}};
   }
 
 })(function () {
