@@ -70,21 +70,15 @@ function compileNamespace(name) {
 
   // Worst case, too many namespaces to care about
   } else {
+    var valueContainer = names.pop()
     return names.reduce(compileNamespaceStep, ['var ref$ = g'])
+                .concat(['ref$.' + camelCase(valueContainer) + ' = f()'])
                 .join(';\n    ');
   }
 }
 
 function compileNamespaceStep(code, name, i, names) {
-  var value
-
-  if (i === names.length - 1) {
-    value = 'f()';
-  } else {
-    value = '{}';
-  }
-
   name = camelCase(name);
-  code.push('ref$ = (ref$.' + name + ' || (ref$.' + name + ' = ' + value + '))')
+  code.push('ref$ = (ref$.' + name + ' || (ref$.' + name + ' = {}))')
   return code
 }
