@@ -3,6 +3,7 @@ var umd = require('../')
 var src = umd('sentinel-prime', 'return "sentinel"')
 var namespacedSrc = umd('sentinel.prime', 'return "sentinel"')
 var multiNamespaces = umd('a.b.c.d.e', 'return "sentinel"')
+var withRequire = umd('sentinel-prime', 'return (function(require){return require();}(function(){return "sentinel";}));')
 
 describe('with CommonJS', function () {
   it('uses module.exports', function () {
@@ -49,4 +50,12 @@ describe('in the absense of a module system', function () {
     assert(glob.a.b.c.d.e === 'sentinel')
   })
 
+})
+
+describe('with require', function(){
+  it('works', function(){
+    var glob = {}
+    Function('window', withRequire)(glob)
+    assert(glob.sentinelPrime === 'sentinel')
+  })
 })

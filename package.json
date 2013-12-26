@@ -7,7 +7,8 @@
     "rfile": "~1.0.0",
     "ruglify": "~1.0.0",
     "through": "~2.3.4",
-    "uglify-js": "~2.4.0"
+    "uglify-js": "~2.4.0",
+    "derequire": "~0.5.0"
   },
   "devDependencies": {
     "linify": "~1.0.1",
