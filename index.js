@@ -1,7 +1,10 @@
-var through = require('through');
+'use strict';
+
+var Transform = require('stream').Transform;
 var rfile = require('rfile');
-var templateSTR = rfile('./template.js');
 var uglify = require('uglify-js');
+var templateSTR = rfile('./template.js');
+
 function template(moduleName, cjs) {
   var str = uglify.minify(
     templateSTR.replace(/\{\{defineNamespace\}\}/g, compileNamespace(moduleName)),
@@ -24,20 +27,18 @@ exports = module.exports = function (name, cjs, src) {
     src = tmp;
   }
   if (src) {
-    return exports.prelude(name, cjs) + src + exports.postlude(name, cjs);
+    return exports.prelude(name, cjs) + exports.renameRequire(src) + exports.postlude(name, cjs);
   } else {
-    var strm = through(write, end);
-    var first = true;
-    function write(chunk) {
-      if (first) strm.queue(exports.prelude(name, cjs));
-      first = false;
-      strm.queue(chunk);
-    }
-    function end() {
-      if (first) strm.queue(exports.prelude(name, cjs));
-      strm.queue(exports.postlude(name, cjs));
-      strm.queue(null);
-    }
+    var strm = new Transform();
+    var buf = '';
+    strm._transform = function (chunk, encoding, callback) {
+      buf += chunk.toString();
+      callback();
+    };
+    strm._flush = function (callback) {
+      strm.push(exports(name, cjs, buf));
+      callback();
+    };
     return strm;
   }
 };
@@ -47,6 +48,18 @@ exports.prelude = function (moduleName, cjs) {
 };
 exports.postlude = function (moduleName, cjs) {
   return template(moduleName, cjs)[1];
+};
+exports.renameRequire = function (src) {
+  var ast = uglify.parse(src);
+  
+  
+  var output = uglify.OutputStream({
+    indent_level: 2,
+    beautify: true,
+    comments: true
+  });
+  ast.print(output);
+  return output.toString();
 };
 
 

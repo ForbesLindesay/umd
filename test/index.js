@@ -4,6 +4,19 @@ var src = umd('sentinel-prime', 'return "sentinel"')
 var namespacedSrc = umd('sentinel.prime', 'return "sentinel"')
 var multiNamespaces = umd('a.b.c.d.e', 'return "sentinel"')
 
+describe('streaming', function() {
+  it('works the same', function (done) {
+    var output = '';
+    var strm = umd('sentinel-prime');
+    strm.end('return "sentinel"');
+    strm.on('data', function (data) {
+      output += data;
+    }).on('end', function () {
+      assert(src === output);
+      done();
+    });
+  });
+});
 describe('with CommonJS', function () {
   it('uses module.exports', function () {
     var module = {exports: {}}
