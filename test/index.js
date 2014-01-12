@@ -14,8 +14,8 @@ describe('with CommonJS', function () {
 describe('with amd', function () {
   it('uses define', function () {
     var defed
-    function define(fn) {
-      defed = fn()
+    function define(d, fn) {
+      defed = (typeof d === 'function' ? d: fn)()
     }
     define.amd = true
     Function('define', src)(define)
