@@ -1,8 +1,10 @@
 var assert = require('assert')
 var umd = require('../')
 var src = umd('sentinel-prime', 'return "sentinel"')
-var namespacedSrc = umd('sentinel.prime', 'return "sentinel"')
-var multiNamespaces = umd('a.b.c.d.e', 'return "sentinel"')
+var namespacedSrc = umd('sentinel/prime', 'return "sentinel"')
+var multiNamespaces = umd('a/b/c/d/e', 'return "sentinel"')
+var dottedSrc = umd('sentinel.prime', 'return "sentinel"')
+var dottedNamespaces = umd('a/b.c/d.e/f', 'return "sentinel"')
 
 describe('with CommonJS', function () {
   it('uses module.exports', function () {
@@ -49,4 +51,14 @@ describe('in the absense of a module system', function () {
     assert(glob.a.b.c.d.e === 'sentinel')
   })
 
+  it('allow dots in names', function() {
+    var glob = {}
+    Function('window', dottedSrc)(glob)
+    assert(glob.sentinelprime === 'sentinel')
+  })
+  it('allow dots in names and namespaces', function() {
+    var glob = {}
+    Function('window', dottedNamespaces)(glob)
+    assert(glob.a.bc.de.f === 'sentinel')
+  })
 })
