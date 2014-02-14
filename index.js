@@ -5,7 +5,7 @@ var uglify = require('uglify-js');
 function template(moduleName, cjs) {
   var str = uglify.minify(
     templateSTR.replace(/\{\{defineNamespace\}\}/g, compileNamespace(moduleName)),
-    {fromString: true}).code
+    {fromString: true, compress: {properties: false}}).code
     .split('source()')
   str[0] = str[0].trim();
   //make sure these are undefined so as to not get confused if modules have inner UMD systems
