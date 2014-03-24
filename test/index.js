@@ -1,3 +1,5 @@
+'use strict';
+
 var assert = require('assert')
 var umd = require('../')
 var src = umd('sentinel-prime', 'return "sentinel"')
@@ -15,7 +17,8 @@ describe('with amd', function () {
   it('uses define', function () {
     var defed
     function define(d, fn) {
-      defed = (typeof d === 'function' ? d: fn)()
+      assert.deepEqual(d, [], 'You must pass an empty array of dependencies to amd to prevent dependency scanning.');
+      defed = fn()
     }
     define.amd = true
     Function('define', src)(define)
