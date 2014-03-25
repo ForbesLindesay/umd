@@ -1,6 +1,6 @@
 ;(function (f) {
   // CommonJS
-  if (typeof exports === "object") {
+  if (typeof exports === "object" && typeof module !== "undefined") {
     module.exports = f();
 
   // RequireJS
