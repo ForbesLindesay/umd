@@ -54,12 +54,12 @@ exports.postlude = function (moduleName, cjs) {
 
 function camelCase(name) {
   name = name.replace(/\-([a-z])/g, function (_, char) { return char.toUpperCase(); });
-  return name.replace(/[^a-zA-Z0-9]+/g, '')
+  return name.replace(/\W+/g, '')
 }
 
 
 function compileNamespace(name) {
-  var names = name.split('.')
+  var names = name.split('/')
 
   // No namespaces, yield the best case 'global.NAME = VALUE'
   if (names.length === 1) {
