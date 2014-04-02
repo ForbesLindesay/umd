@@ -1,3 +1,9 @@
+2.1.0 / 2014-04-02
+==================
+
+ - Check for definition of `module` as well as `exports` for CommonJS (fixes some custom RequireJS loaders)
+ - Pass empty array to define for AMD
+
 2.0.0 / 2013-12-29
 ==================
 
