@@ -9,9 +9,9 @@ Universal Module Definition for use in automated build systems
  - CommonJS support
  - prevents internal UMDs from conflicting
 
-[![Build Status](https://travis-ci.org/ForbesLindesay/umd.png?branch=master)](https://travis-ci.org/ForbesLindesay/umd)
-[![Dependency Status](https://gemnasium.com/ForbesLindesay/umd.png)](https://gemnasium.com/ForbesLindesay/umd)
-[![NPM version](https://badge.fury.io/js/umd.png)](http://badge.fury.io/js/umd)
+[![Build Status](https://img.shields.io/travis/ForbesLindesay/umd/master.svg)](https://travis-ci.org/ForbesLindesay/umd)
+[![Dependency Status](https://img.shields.io/gemnasium/ForbesLindesay/umd.svg)](https://gemnasium.com/ForbesLindesay/umd)
+[![NPM version](https://img.shields.io/npm/v/umd.svg)](http://badge.fury.io/js/umd)
 
 ## Source Format
 
