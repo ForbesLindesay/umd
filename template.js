@@ -9,14 +9,8 @@
 
   // <script>
   } else {
-    var g
-    if (typeof window !== "undefined") {
-      g = window;
-    } else if (typeof global !== "undefined") {
-      g = global;
-    } else if (typeof self !== "undefined") {
-      g = self;
-    }
+    var g = window || global || self;
+    
     {{defineNamespace}};
   }
 
