@@ -5,6 +5,7 @@ var umd = require('../')
 var src = umd('sentinel-prime', 'return "sentinel"')
 var namespacedSrc = umd('sentinel.prime', 'return "sentinel"')
 var multiNamespaces = umd('a.b.c.d.e', 'return "sentinel"')
+var amdDeps = umd('sentinel-prime', 'return "sentinel"', undefined, { amd: { deps: ['dep1', 'dep2'] } });
 
 describe('with CommonJS', function () {
   it('uses module.exports', function () {
@@ -24,6 +25,9 @@ describe('with amd', function () {
     Function('define', src)(define)
     assert(defed === 'sentinel')
   })
+  it('uses the provided dependency array so the shorthand version of require can be used', function () {
+    assert(amdDeps.indexOf('["dep1","dep2"]') > -1);
+  });
 })
 describe('in the absense of a module system', function () {
   it('uses window', function () {

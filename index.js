@@ -5,9 +5,14 @@ var rfile = require('rfile');
 var uglify = require('uglify-js');
 var templateSTR = rfile('./template.js');
 
-function template(moduleName, cjs) {
+function template(moduleName, cjs, options) {
+  options = options || {};
+  var wrapper = templateSTR
+    .replace(/\{\{defineNamespace\}\}/g, compileNamespace(moduleName))
+    .replace(/\{\{amdDependencies\}\}/g, compileAmdDependencies(options.amd));
+
   var str = uglify.minify(
-    templateSTR.replace(/\{\{defineNamespace\}\}/g, compileNamespace(moduleName)),
+    wrapper,
     {fromString: true}).code
     .split('source()')
   str[0] = str[0].trim();
@@ -20,32 +25,33 @@ function template(moduleName, cjs) {
   return str;
 }
 
-exports = module.exports = function (name, cjs, src) {
+exports = module.exports = function (name, cjs, src, options) {
   if (typeof cjs === 'string') {
     var tmp = cjs;
     cjs = src;
     src = tmp;
   }
+
   if (src) {
-    return exports.prelude(name, cjs) + src + exports.postlude(name, cjs);
+    return exports.prelude(name, cjs, options) + src + exports.postlude(name, cjs);
   }
   var strm = through(write, end);
   var first = true;
   function write(chunk) {
-    if (first) strm.queue(exports.prelude(name, cjs));
+    if (first) strm.queue(exports.prelude(name, cjs, options));
     first = false;
     strm.queue(chunk);
   }
   function end() {
-    if (first) strm.queue(exports.prelude(name, cjs));
+    if (first) strm.queue(exports.prelude(name, cjs, options));
     strm.queue(exports.postlude(name, cjs));
     strm.queue(null);
   }
   return strm;
 };
 
-exports.prelude = function (moduleName, cjs) {
-  return template(moduleName, cjs)[0];
+exports.prelude = function (moduleName, cjs, options) {
+  return template(moduleName, cjs, options)[0];
 };
 exports.postlude = function (moduleName, cjs) {
   return template(moduleName, cjs)[1];
@@ -84,3 +90,14 @@ function compileNamespaceStep(code, name, i, names) {
   code.push('ref$ = (ref$.' + name + ' || (ref$.' + name + ' = {}))')
   return code
 }
+
+function compileAmdDependencies(amdOptions) {
+  amdOptions = amdOptions || {};
+  var depArray = amdOptions.deps || [];
+  var depString = '';
+  if (depArray.length) {
+    depString = '"' + depArray.join('","') + '"';
+  }
+  return depString;
+}
+
