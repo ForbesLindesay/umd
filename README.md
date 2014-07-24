@@ -31,19 +31,25 @@ For examples, see the examples directory.  The CommonJS module format is also su
 
 ## API
 
-### umd(name, [commonJS = false], [source])
+### umd(name, [commonJS = false], [source], [options])
 
   The `name` should the the name of the module.  Use a string like name, all lower case with hyphens instead of spaces.
 
   If CommonJS is `true` then it will accept CommonJS source instead of source code which `return`s the module.
 
   If `source` is provided and is a string, then it is wrapped in umd and returned as a string.  If it is not provided, a duplex stream is returned which wraps the modules (see examples/build.js).
-
+  
   Both commonJS and source are optional and can be provided in either order.
+  
+  If `options` is provided and is an object, it will be passed as configuration to `umd.prelude`
+  
+  `options` must always be passed as the fourth parameter.
 
-### umd.prelude(module, [commonJS = false])
+### umd.prelude(module, [commonJS = false], [options = {}])
 
   return the text which will be inserted before a module.
+  
+  If `options.amd.deps` is an array of strings, it will be provided as the list of dependencies for the amd portion of the umd header. This allows wrapped code to use the short form of RequireJS to load the modules.
 
 ### umd.postlude(module, [commonJS = false])
 
