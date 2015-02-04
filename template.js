@@ -22,7 +22,7 @@
       // seee https://github.com/facebook/react/issues/3037
       g = this;
     }
-    {{defineNamespace}};
+    defineNamespace()
   }
 
 })(function () {

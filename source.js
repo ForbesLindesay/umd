@@ -1,9 +1,8 @@
 'use strict';
 
+var fs = require('fs');
 var through = require('through');
-var rfile = require('rfile');
-var uglify = require('uglify-js');
-var templateSTR = rfile('./template.js');
+var templateSTR = fs.readFileSync(__dirname + '/template.min.js', 'utf8');
 
 function template(moduleName, options) {
   if (typeof options === 'boolean') {
@@ -11,9 +10,7 @@ function template(moduleName, options) {
   } else if (!options) {
     options = {};
   }
-  var str = uglify.minify(
-    templateSTR.replace(/\{\{defineNamespace\}\}/g, compileNamespace(moduleName)),
-    {fromString: true}).code
+  var str = templateSTR.replace(/defineNamespace\(\)/g, compileNamespace(moduleName))
     .split('source()')
   str[0] = str[0].trim();
   //make sure these are undefined so as to not get confused if modules have inner UMD systems
@@ -85,14 +82,13 @@ function compileNamespace(name) {
   // Worst case, too many namespaces to care about
   } else {
     var valueContainer = names.pop()
-    return names.reduce(compileNamespaceStep, ['var ref$ = g'])
-                .concat(['ref$.' + camelCase(valueContainer) + ' = f()'])
-                .join(';\n    ');
+    return names.map(compileNamespaceStep)
+                .concat(['g.' + camelCase(valueContainer) + ' = f()'])
+                .join(';');
   }
 }
 
-function compileNamespaceStep(code, name, i, names) {
+function compileNamespaceStep(name) {
   name = camelCase(name);
-  code.push('ref$ = (ref$.' + name + ' || (ref$.' + name + ' = {}))')
-  return code
+  return 'g=(g.' + name + '||(g.' + name + ' = {}))';
 }
