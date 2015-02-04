@@ -8,7 +8,7 @@ var templateSTR = rfile('./template.js');
 function template(moduleName, cjs) {
   var str = uglify.minify(
     templateSTR.replace(/\{\{defineNamespace\}\}/g, compileNamespace(moduleName)),
-    {fromString: true}).code
+    {fromString: true, compress: {properties: false}}).code
     .split('source()')
   str[0] = str[0].trim();
   //make sure these are undefined so as to not get confused if modules have inner UMD systems
@@ -63,24 +63,24 @@ function compileNamespace(name) {
 
   // No namespaces, yield the best case 'global.NAME = VALUE'
   if (names.length === 1) {
-    return 'g.' + camelCase(name) + ' = f()';
+    return "g['" + camelCase(name) + "'] = f()";
 
   // Acceptable case, with reasonable compilation
   } else if (names.length === 2) {
     names = names.map(camelCase);
-    return '(g.' + names[0] + ' || (g.' + names[0] + ' = {})).' + names[1] + ' = f()';
+    return "(g['" + names[0] + "'] || (g['" + names[0] + "'] = {}))['" + names[1] + "'] = f()";
 
   // Worst case, too many namespaces to care about
   } else {
     var valueContainer = names.pop()
     return names.reduce(compileNamespaceStep, ['var ref$ = g'])
-                .concat(['ref$.' + camelCase(valueContainer) + ' = f()'])
+                .concat(["ref$['" + camelCase(valueContainer) + "'] = f()"])
                 .join(';\n    ');
   }
 }
 
 function compileNamespaceStep(code, name, i, names) {
   name = camelCase(name);
-  code.push('ref$ = (ref$.' + name + ' || (ref$.' + name + ' = {}))')
+  code.push("ref$ = (ref$['" + name + "'] || (ref$['" + name + "'] = {}))")
   return code
 }
