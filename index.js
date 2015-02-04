@@ -5,7 +5,12 @@ var rfile = require('rfile');
 var uglify = require('uglify-js');
 var templateSTR = rfile('./template.js');
 
-function template(moduleName, cjs) {
+function template(moduleName, options) {
+  if (typeof options === 'boolean') {
+    options = {commonJS: options};
+  } else if (!options) {
+    options = {};
+  }
   var str = uglify.minify(
     templateSTR.replace(/\{\{defineNamespace\}\}/g, compileNamespace(moduleName)),
     {fromString: true}).code
@@ -13,42 +18,42 @@ function template(moduleName, cjs) {
   str[0] = str[0].trim();
   //make sure these are undefined so as to not get confused if modules have inner UMD systems
   str[0] += 'var define,module,exports;';
-  if (cjs) str[0] += 'module={exports:(exports={})};';
+  if (options.commonJS) str[0] += 'module={exports:(exports={})};';
   str[0] += '\n';
-  if (cjs) str[1] = 'return module.exports;' + str[1];
+  if (options.commonJS) str[1] = 'return module.exports;' + str[1];
   str[1] = '\n' + str[1];
   return str;
 }
 
-exports = module.exports = function (name, cjs, src) {
-  if (typeof cjs === 'string') {
-    var tmp = cjs;
-    cjs = src;
+exports = module.exports = function (name, options, src) {
+  if (typeof options === 'string') {
+    var tmp = options;
+    options = src;
     src = tmp;
   }
   if (src) {
-    return exports.prelude(name, cjs) + src + exports.postlude(name, cjs);
+    return exports.prelude(name, options) + src + exports.postlude(name, options);
   }
   var strm = through(write, end);
   var first = true;
   function write(chunk) {
-    if (first) strm.queue(exports.prelude(name, cjs));
+    if (first) strm.queue(exports.prelude(name, options));
     first = false;
     strm.queue(chunk);
   }
   function end() {
-    if (first) strm.queue(exports.prelude(name, cjs));
-    strm.queue(exports.postlude(name, cjs));
+    if (first) strm.queue(exports.prelude(name, options));
+    strm.queue(exports.postlude(name, options));
     strm.queue(null);
   }
   return strm;
 };
 
-exports.prelude = function (moduleName, cjs) {
-  return template(moduleName, cjs)[0];
+exports.prelude = function (moduleName, options) {
+  return template(moduleName, options)[0];
 };
-exports.postlude = function (moduleName, cjs) {
-  return template(moduleName, cjs)[1];
+exports.postlude = function (moduleName, options) {
+  return template(moduleName, options)[1];
 };
 
 
