@@ -1,3 +1,14 @@
+3.0.0 / 2015-02-04
+==================
+
+ - remove dependency on ruglify (thanks to @zertosh)
+ - add `this` as an additional fallback when looking for a global (thanks to @winterbe)
+ - use `options` rather than `true` / `false` for whether to use CommonJS (with fallback for backwards compatibility).
+ - support `$` and `_` in module names (thanks to @fitnr) **(BREAKING CHANGE)**
+ - uglify as a pre-publish step - removing a dependency
+ - brfs as a pre-publish step - allowing this module to be used from the browser.
+ - remove support for streaming **(BREAKING CHANGE)**
+
 2.1.0 / 2014-04-02
 ==================
 
