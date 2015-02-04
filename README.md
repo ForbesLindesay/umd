@@ -4,7 +4,6 @@
 Universal Module Definition for use in automated build systems
 
  - simple synchronous wrapping of a string
- - optional wrapping of a "stream" with genuine streaming
  - `return` style module support
  - CommonJS support
  - prevents internal UMDs from conflicting
@@ -35,13 +34,11 @@ options:
 
  - `commonJS` (default: `false`) - If commonJS is `true` then it will accept CommonJS source instead of source code which `return`s the module.
 
-### umd(name, [source], [options])
+### umd(name, source, [options])
 
   The `name` should the the name of the module.  Use a string like name, all lower case with hyphens instead of spaces.
 
-  If `source` is provided and is a string, then it is wrapped in umd and returned as a string.  If it is not provided, a duplex stream is returned which wraps the modules (see examples/build.js).
-
-  Both commonJS and source are optional and can be provided in either order.
+  If `source` should be a string, that is wrapped in umd and returned as a string.
 
 ### umd.prelude(module, [options])
 
@@ -62,6 +59,12 @@ Options:
 
  -h --help     Display usage information
  -c --commonJS Use CommonJS module format
+ ```
+
+ You can easilly pipe unix commands together like:
+
+ ```js
+ cat my-module.js | umd my-module | uglify-js > my-module.umd.min.js
  ```
 
 ## License

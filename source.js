@@ -1,7 +1,6 @@
 'use strict';
 
 var fs = require('fs');
-var through = require('through');
 var templateSTR = fs.readFileSync(__dirname + '/template.min.js', 'utf8');
 
 function template(moduleName, options) {
@@ -22,28 +21,13 @@ function template(moduleName, options) {
   return str;
 }
 
-exports = module.exports = function (name, options, src) {
-  if (typeof options === 'string') {
+exports = module.exports = function (name, src, options) {
+  if (typeof options === 'string' && typeof src === 'object') {
     var tmp = options;
     options = src;
     src = tmp;
   }
-  if (src) {
-    return exports.prelude(name, options) + src + exports.postlude(name, options);
-  }
-  var strm = through(write, end);
-  var first = true;
-  function write(chunk) {
-    if (first) strm.queue(exports.prelude(name, options));
-    first = false;
-    strm.queue(chunk);
-  }
-  function end() {
-    if (first) strm.queue(exports.prelude(name, options));
-    strm.queue(exports.postlude(name, options));
-    strm.queue(null);
-  }
-  return strm;
+  return exports.prelude(name, options) + src + exports.postlude(name, options);
 };
 
 exports.prelude = function (moduleName, options) {
