@@ -9,7 +9,7 @@ var multiNamespaces = umd('a.b.c.d.e', 'return "sentinel"')
 describe('with CommonJS', function () {
   it('uses module.exports', function () {
     var module = {exports: {}}
-    Function('module,exports', src)(module,module.exports)
+    require('vm').runInNewContext(src, {module: module, exports: module.exports})
     assert(module.exports === 'sentinel')
   })
 })
@@ -21,24 +21,29 @@ describe('with amd', function () {
       defed = fn()
     }
     define.amd = true
-    Function('define', src)(define)
+    require('vm').runInNewContext(src, {define: define});
     assert(defed === 'sentinel')
   })
 })
 describe('in the absense of a module system', function () {
   it('uses window', function () {
     var glob = {}
-    Function('window', src)(glob)
+    require('vm').runInNewContext(src, {window: glob})
     assert(glob.sentinelPrime === 'sentinel')
   })
   it('uses global', function () {
     var glob = {}
-    Function('global,window', src)(glob)
+    require('vm').runInNewContext(src, {global: glob})
     assert(glob.sentinelPrime === 'sentinel')
   })
   it('uses self', function () {
     var glob = {}
-    Function('self,window,global', src)(glob)
+    require('vm').runInNewContext(src, {self: glob})
+    assert(glob.sentinelPrime === 'sentinel')
+  })
+  it('uses `this`', function () {
+    var glob = {}
+    require('vm').runInNewContext(src, glob)
     assert(glob.sentinelPrime === 'sentinel')
   })
   it('creates the proper namespaces', function() {
