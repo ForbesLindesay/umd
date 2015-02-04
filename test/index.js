@@ -5,6 +5,7 @@ var umd = require('../')
 var src = umd('sentinel-prime', 'return "sentinel"')
 var namespacedSrc = umd('sentinel.prime', 'return "sentinel"')
 var multiNamespaces = umd('a.b.c.d.e', 'return "sentinel"')
+var dollared = umd('$', 'return "sentinel"')
 
 describe('with CommonJS', function () {
   it('uses module.exports', function () {
@@ -56,5 +57,9 @@ describe('in the absense of a module system', function () {
     Function('window', multiNamespaces)(glob)
     assert(glob.a.b.c.d.e === 'sentinel')
   })
-
+  it('allows the name to be a dollar', function () {
+    var glob = {}
+    Function('window', dollared)(glob)
+    assert(glob.$ === 'sentinel')
+  })
 })

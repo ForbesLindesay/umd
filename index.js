@@ -59,7 +59,14 @@ exports.postlude = function (moduleName, options) {
 
 function camelCase(name) {
   name = name.replace(/\-([a-z])/g, function (_, char) { return char.toUpperCase(); });
-  return name.replace(/[^a-zA-Z0-9]+/g, '')
+  if (!/^[a-zA-Z_$]$/.test(name[0])) {
+    name = name.substr(1);
+  }
+  var result = name.replace(/[^\w$]+/g, '')
+  if (!result) {
+    throw new Error('Invalid JavaScript identifier resulted from camel-casing');
+  }
+  return result
 }
 
 
