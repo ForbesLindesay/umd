@@ -75,7 +75,7 @@ The `name` passed to `umd` will be converted to camel case (`my-library` becomes
 * $
 * _
 
-The name may not begin with a number. Invalid characters will be stripped. 
+The name may not begin with a number. `umd` will throw if the provided `name` is invalid. 
 
 ## License
 
