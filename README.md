@@ -67,6 +67,16 @@ Options:
  cat my-module.js | umd my-module | uglify-js > my-module.umd.min.js
  ```
 
+## Name Casing and Characters
+
+The `name` passed to `umd` will be converted to camel case (`my-library` becomes `myLibrary`) and may only contain:
+
+* alphanumeric characters
+* $
+* _
+
+The name may not begin with a number. Invalid characters will be stripped. 
+
 ## License
 
   MIT
