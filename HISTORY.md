@@ -1,3 +1,8 @@
+3.0.1 / 2015-04-25
+==================
+
+- Document and test casing/sanitization behavior (thanks @bendrucker)
+
 3.0.0 / 2015-02-04
 ==================
 
