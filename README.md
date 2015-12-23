@@ -9,8 +9,8 @@ Universal Module Definition for use in automated build systems
  - prevents internal UMDs from conflicting
 
 [![Build Status](https://img.shields.io/travis/ForbesLindesay/umd/master.svg)](https://travis-ci.org/ForbesLindesay/umd)
-[![Dependency Status](https://img.shields.io/gemnasium/ForbesLindesay/umd.svg)](https://gemnasium.com/ForbesLindesay/umd)
-[![NPM version](https://img.shields.io/npm/v/umd.svg)](http://badge.fury.io/js/umd)
+[![Dependency Status](https://img.shields.io/david/ForbesLindesay/umd.svg)](https://david-dm.org/ForbesLindesay/umd)
+[![NPM version](https://img.shields.io/npm/v/umd.svg)](https://www.npmjs.com/package/umd)
 
 ## Source Format
 
