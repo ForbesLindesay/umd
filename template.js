@@ -19,7 +19,7 @@
     } else {
       // works providing we're not in "use strict";
       // needed for Java 8 Nashorn
-      // seee https://github.com/facebook/react/issues/3037
+      // see https://github.com/facebook/react/issues/3037
       g = this;
     }
     defineNamespace()
