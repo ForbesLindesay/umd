@@ -2,6 +2,7 @@
 
 var fs = require('fs');
 var templateSTR = fs.readFileSync(__dirname + '/template.min.js', 'utf8');
+var camelize = require('camelize-identifier');
 
 function template(moduleName, options) {
   if (typeof options === 'boolean') {
@@ -37,42 +38,28 @@ exports.postlude = function (moduleName, options) {
   return template(moduleName, options)[1];
 };
 
-
-function camelCase(name) {
-  name = name.replace(/\-([a-z])/g, function (_, char) { return char.toUpperCase(); });
-  if (!/^[a-zA-Z_$]$/.test(name[0])) {
-    name = name.substr(1);
-  }
-  var result = name.replace(/[^\w$]+/g, '')
-  if (!result) {
-    throw new Error('Invalid JavaScript identifier resulted from camel-casing');
-  }
-  return result
-}
-
-
 function compileNamespace(name) {
   var names = name.split('.')
 
   // No namespaces, yield the best case 'global.NAME = VALUE'
   if (names.length === 1) {
-    return 'g.' + camelCase(name) + ' = f()';
+    return 'g.' + camelize(name) + ' = f()';
 
   // Acceptable case, with reasonable compilation
   } else if (names.length === 2) {
-    names = names.map(camelCase);
+    names = names.map(camelize);
     return '(g.' + names[0] + ' || (g.' + names[0] + ' = {})).' + names[1] + ' = f()';
 
   // Worst case, too many namespaces to care about
   } else {
     var valueContainer = names.pop()
     return names.map(compileNamespaceStep)
-                .concat(['g.' + camelCase(valueContainer) + ' = f()'])
+                .concat(['g.' + camelize(valueContainer) + ' = f()'])
                 .join(';');
   }
 }
 
 function compileNamespaceStep(name) {
-  name = camelCase(name);
+  name = camelize(name);
   return 'g=(g.' + name + '||(g.' + name + ' = {}))';
 }

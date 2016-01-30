@@ -6,12 +6,7 @@ var src = umd('sentinel-prime', 'return "sentinel"')
 var namespacedSrc = umd('sentinel.prime', 'return "sentinel"')
 var multiNamespaces = umd('a.b.c.d.e', 'return "sentinel"')
 var dollared = umd('$', 'return "sentinel"')
-var number = umd('2sentinel', 'return "sentinel"')
-var strip = umd('sentinel^', 'return "sentinel"')
 
-it('throws when no valid identifier is produced', function () {
-  assert.throws(umd.bind(null, '^!', ''), /Invalid JavaScript/)
-})
 describe('with CommonJS', function () {
   it('uses module.exports', function () {
     var module = {exports: {}}
@@ -71,15 +66,5 @@ describe('in the absense of a module system', function () {
     var glob = {}
     Function('window', src)(glob)
     assert(glob.sentinelPrime === 'sentinel')
-  })
-  it('strips invalid leading characters', function () {
-    var glob = {}
-    Function('window', number)(glob)
-    assert(glob.sentinel === 'sentinel')
-  })
-  it('removes invalid characters', function () {
-    var glob = {}
-    Function('window', strip)(glob)
-    assert(glob.sentinel === 'sentinel')
   })
 })
