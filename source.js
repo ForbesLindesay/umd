@@ -9,8 +9,10 @@ function template(moduleName, options) {
   } else if (!options) {
     options = {};
   }
-  var str = templateSTR.replace(/defineNamespace\(\)/g, compileNamespace(moduleName))
-      .replace(/deps\(\)/g, getDependencies(options.deps)).split('source()')
+  var str = templateSTR
+      .replace(/defineNamespace\(\)/g, compileNamespace(moduleName))
+      .replace(/deps\(\)/g, getDependencies(options.deps))
+      .split('source()')
   str[0] = str[0].trim();
   //make sure these are undefined so as to not get confused if modules have inner UMD systems
   str[0] += 'var define,module,exports;';
@@ -78,13 +80,5 @@ function compileNamespaceStep(name) {
 }
 
 function getDependencies(dependencies) {
-  if (dependencies && Array.isArray(dependencies))  {
-    return dependencies.map(mapDependency).join(",");
-  }
-
-  return "string" === typeof dependencies ? mapDependency(dependencies) : "";
-}
-
-function mapDependency(dependency) {
-  return '"' + dependency + '"';
+  return dependencies ? JSON.stringify(dependencies).replace(/^\[/g, "").replace(/]$/g, "") : "";
 }
