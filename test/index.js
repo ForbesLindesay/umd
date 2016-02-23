@@ -3,7 +3,7 @@
 var assert = require('assert')
 var umd = require('../')
 var src = umd('sentinel-prime', 'return "sentinel"')
-var srcWithSindleDep = umd('sentinel-prime', 'return "sentinel"', {deps: "dep1"})
+var srcWithSingleDep = umd('sentinel-prime', 'return "sentinel"', {deps: "dep1"})
 var srcWithMultipleDeps = umd('sentinel-prime', 'return "sentinel"', {deps: ["dep1", "dep2"]})
 var namespacedSrc = umd('sentinel.prime', 'return "sentinel"')
 var multiNamespaces = umd('a.b.c.d.e', 'return "sentinel"')
@@ -39,7 +39,7 @@ describe('with amd', function () {
       defed = fn()
     }
     define.amd = true
-    require('vm').runInNewContext(srcWithSindleDep, {define: define});
+    require('vm').runInNewContext(srcWithSingleDep, {define: define});
     assert(defed === 'sentinel')
   })
   it('uses define with multiple dependencies', function () {
