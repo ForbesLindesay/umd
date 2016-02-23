@@ -80,5 +80,6 @@ function compileNamespaceStep(name) {
 }
 
 function getDependencies(dependencies) {
-  return dependencies ? JSON.stringify(dependencies).replace(/^\[/g, "").replace(/]$/g, "") : "";
+  dependencies = dependencies || [];
+  return JSON.stringify(Array.isArray(dependencies) ? dependencies : [dependencies]);
 }
