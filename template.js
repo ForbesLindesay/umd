@@ -5,7 +5,7 @@
 
   // RequireJS
   } else if (typeof define === "function" && define.amd) {
-    define([], f);
+    define([deps()], f); //deps() should be replaced with module dependencies if any
 
   // <script>
   } else {

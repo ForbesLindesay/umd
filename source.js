@@ -10,7 +10,7 @@ function template(moduleName, options) {
     options = {};
   }
   var str = templateSTR.replace(/defineNamespace\(\)/g, compileNamespace(moduleName))
-    .split('source()')
+      .replace(/deps\(\)/g, getDependencies(options.deps)).split('source()')
   str[0] = str[0].trim();
   //make sure these are undefined so as to not get confused if modules have inner UMD systems
   str[0] += 'var define,module,exports;';
@@ -75,4 +75,16 @@ function compileNamespace(name) {
 function compileNamespaceStep(name) {
   name = camelCase(name);
   return 'g=(g.' + name + '||(g.' + name + ' = {}))';
+}
+
+function getDependencies(dependencies) {
+  if (dependencies && Array.isArray(dependencies))  {
+    return dependencies.map(mapDependency).join(",");
+  }
+
+  return "string" === typeof dependencies ? mapDependency(dependencies) : "";
+}
+
+function mapDependency(dependency) {
+  return '"' + dependency + '"';
 }
