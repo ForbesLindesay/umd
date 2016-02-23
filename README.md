@@ -33,7 +33,7 @@ For examples, see the examples directory.  The CommonJS module format is also su
 options:
 
  - `commonJS` (default: `false`) - If commonJS is `true` then it will accept CommonJS source instead of source code which `return`s the module.
- - `deps` (default: `empty`) - Dependency string or array of module dependencies which will be passed to AMD `define` part of a wrapper.
+ - `deps` (default: empty) - Dependency string or array of module dependencies which will be passed to AMD `define` part of a wrapper.
 
 ### umd(name, source, [options])
 
