@@ -1,4 +1,6 @@
 # umd
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/ForbesLindesay/umd.svg)](https://greenkeeper.io/)
 <img src="http://i.imgur.com/ypw29XY.png" align="right"/>
 
 Universal Module Definition for use in automated build systems
