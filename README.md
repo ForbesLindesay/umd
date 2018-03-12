@@ -1,5 +1,7 @@
 # umd
 
+<img src="http://i.imgur.com/ypw29XY.png" align="right"/>
+
 Universal Module Definition for use in automated build systems
 
  - simple synchronous wrapping of a string
