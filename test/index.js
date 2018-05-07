@@ -3,6 +3,8 @@
 var assert = require('assert')
 var umd = require('../')
 var src = umd('sentinel-prime', 'return "sentinel"')
+var srcWithSingleDep = umd('sentinel-prime', 'return "sentinel"', {deps: "dep1"})
+var srcWithMultipleDeps = umd('sentinel-prime', 'return "sentinel"', {deps: ["dep1", "dep2"]})
 var namespacedSrc = umd('sentinel.prime', 'return "sentinel"')
 var multiNamespaces = umd('a.b.c.d.e', 'return "sentinel"')
 var dollared = umd('$', 'return "sentinel"')
@@ -28,6 +30,26 @@ describe('with amd', function () {
     }
     define.amd = true
     require('vm').runInNewContext(src, {define: define});
+    assert(defed === 'sentinel')
+  })
+  it('uses define with single dependency', function () {
+    var defed
+    function define(d, fn) {
+      assert.deepEqual(d, ['dep1'], 'String dependency should be passed to a define');
+      defed = fn()
+    }
+    define.amd = true
+    require('vm').runInNewContext(srcWithSingleDep, {define: define});
+    assert(defed === 'sentinel')
+  })
+  it('uses define with multiple dependencies', function () {
+    var defed
+    function define(d, fn) {
+      assert.deepEqual(d, ['dep1', 'dep2'], 'Dependencies should be passed to a define');
+      defed = fn()
+    }
+    define.amd = true
+    require('vm').runInNewContext(srcWithMultipleDeps, {define: define});
     assert(defed === 'sentinel')
   })
 })
