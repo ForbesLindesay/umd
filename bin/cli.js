@@ -32,10 +32,11 @@ if (help || !args[0]) {
   console.log('')
   if (!help) process.exit(1)
 } else {
+  var modules = args[0].split(',')
   var source = args[1] ? read(args[1]) : process.stdin
   var dest = args[2] ? write(args[2]) : process.stdout
-  var prelude = umd.prelude(args[0], {commonJS: commonJS})
-  var postlude = umd.postlude(args[0], {commonJS: commonJS})
+  var prelude = umd.prelude(modules, {commonJS: commonJS})
+  var postlude = umd.postlude(modules, {commonJS: commonJS})
   dest.write(prelude)
   source.on('end', function () {
     dest.write(postlude + '\n')

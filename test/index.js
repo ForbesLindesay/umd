@@ -4,7 +4,8 @@ var assert = require('assert')
 var umd = require('../')
 var src = umd('sentinel-prime', 'return "sentinel"')
 var namespacedSrc = umd('sentinel.prime', 'return "sentinel"')
-var multiNamespaces = umd('a.b.c.d.e', 'return "sentinel"')
+var nestedNamespaces = umd('a.b.c.d.e', 'return "sentinel"')
+var multiNamespaces = umd(['a.b.c.d.e','f.g.h.i.j'], 'return "sentinel"')
 var dollared = umd('$', 'return "sentinel"')
 var number = umd('2sentinel', 'return "sentinel"')
 var strip = umd('sentinel^', 'return "sentinel"')
@@ -57,10 +58,15 @@ describe('in the absense of a module system', function () {
     Function('window', namespacedSrc)(glob)
     assert(glob.sentinel.prime === 'sentinel')
   })
+  it('creates proper nested namespaces', function() {
+    var glob = {}
+    Function('window', nestedNamespaces)(glob)
+    assert(glob.a.b.c.d.e === 'sentinel')
+  })
   it('creates proper multiple namespaces', function() {
     var glob = {}
     Function('window', multiNamespaces)(glob)
-    assert(glob.a.b.c.d.e === 'sentinel')
+    assert(glob.a.b.c.d.e === 'sentinel' && glob.f.g.h.i.j === 'sentinel')
   })
   it('allows the name to be a dollar', function () {
     var glob = {}
