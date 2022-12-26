@@ -36,7 +36,7 @@ options:
 
 ### umd(name, source, [options])
 
-  The `name` should the the name of the module.  Use a string like name, all lower case with hyphens instead of spaces.
+  The `name` should be the name of the module.  May also be an array of said names if you want to expose more than one name.  Use a string like name, all lower case with hyphens instead of spaces.
 
   If `source` should be a string, that is wrapped in umd and returned as a string.
 
@@ -60,6 +60,8 @@ Options:
  -h --help     Display usage information
  -c --commonJS Use CommonJS module format
  ```
+
+ `name` may be a comma-separated list of names if you want to expose more than one name.
 
  You can easilly pipe unix commands together like:
 
